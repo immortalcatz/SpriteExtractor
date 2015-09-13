@@ -25,10 +25,5 @@ public class All extends Spritesheet {
     }
 
     @Override
-    protected JSONArray getJsonArray(String string) {
-        return null;
-    }
-
-    @Override
     protected void saveSprites(BufferedImage image, JSONArray json, File dir) {}
 }

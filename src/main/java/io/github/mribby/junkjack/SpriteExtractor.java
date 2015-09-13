@@ -3,7 +3,11 @@ package io.github.mribby.junkjack;
 public class SpriteExtractor {
     public static void main(String[] args) {
         if (args.length > 0) {
-            extractSprites(args[0]);
+            Downloader.downloadDependencies();
+
+            for (String arg : args) {
+                extractSprites(arg);
+            }
         } else {
             javax.swing.SwingUtilities.invokeLater(new Runnable() {
                 public void run() {
@@ -17,7 +21,6 @@ public class SpriteExtractor {
         Spritesheet spritesheet = Spritesheet.getSpritesheet(name);
 
         if (spritesheet != null) {
-            Downloader.downloadDependencies();
             System.out.println("Extracting sprites: " + spritesheet.getName());
             long start = System.currentTimeMillis();
             int sprites = spritesheet.saveSprites();

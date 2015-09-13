@@ -17,9 +17,8 @@ public class Downloader {
 
     public static void downloadDependencies() {
         System.out.println("Downloading dependencies");
-        downloadDependency("org.apache.commons.io.IOUtils", "commons-ioa", "commons-io", "2.4", false);
+        downloadDependency("org.apache.commons.io.IOUtils", "commons-io", "commons-io", "2.4", false);
         downloadDependency("org.json.JSONArray", "org/json", "json", "20140107");
-        //try {Thread.sleep(2000);} catch (Exception e) {}
         System.out.println("Downloaded dependencies");
     }
 

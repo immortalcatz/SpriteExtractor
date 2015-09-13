@@ -54,6 +54,8 @@ public abstract class Spritesheet {
         return sprites;
     }
 
+    protected abstract String getName();
+
     protected String getDirName() {
         return getName();
     }
@@ -66,17 +68,17 @@ public abstract class Spritesheet {
         return getName();
     }
 
-    protected abstract String getName();
-
-    protected abstract JSONArray getJsonArray(String string);
+    protected JSONArray getJsonArray(String string) {
+        return new JSONArray(string);
+    }
 
     protected abstract void saveSprites(BufferedImage image, JSONArray json, File dir);
 
-    protected BufferedImage getResizedImage(Image image, int width, int height) {
+    protected final BufferedImage getResizedImage(Image image, int width, int height) {
         return getResizedImage(image, width, height, width, height, 0, 0);
     }
 
-    protected BufferedImage getResizedImage(Image image, int width, int height, int canvasWidth, int canvasHeight, int x, int y) {
+    protected final BufferedImage getResizedImage(Image image, int width, int height, int canvasWidth, int canvasHeight, int x, int y) {
         BufferedImage resized = new BufferedImage(canvasWidth, canvasHeight, BufferedImage.TYPE_INT_ARGB);
         Graphics2D graphics = resized.createGraphics();
         graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_NEAREST_NEIGHBOR);
@@ -85,7 +87,7 @@ public abstract class Spritesheet {
         return resized;
     }
 
-    protected void saveImage(RenderedImage image, String spriteName, File dir) {
+    protected final void saveImage(RenderedImage image, String spriteName, File dir) {
         try {
             ImageIO.write(image, "png", new File(dir, spriteName + ".png"));
             sprites++;

@@ -8,6 +8,11 @@ import java.io.File;
 
 public class Items extends Spritesheet {
     @Override
+    protected String getName() {
+        return "items";
+    }
+
+    @Override
     protected String getImageName() {
         return "treasures";
     }
@@ -18,17 +23,7 @@ public class Items extends Spritesheet {
     }
 
     @Override
-    public String getName() {
-        return "items";
-    }
-
-    @Override
-    public JSONArray getJsonArray(String string) {
-        return new JSONArray(string);
-    }
-
-    @Override
-    public void saveSprites(BufferedImage image, JSONArray json, File dir) {
+    protected void saveSprites(BufferedImage image, JSONArray json, File dir) {
         for (int i = 0; i < json.length(); i++) {
             JSONObject jsonObject = json.getJSONObject(i);
             String name = jsonObject.getString("name");

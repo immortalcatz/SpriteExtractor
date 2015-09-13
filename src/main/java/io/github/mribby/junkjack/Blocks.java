@@ -8,22 +8,17 @@ import java.io.File;
 
 public class Blocks extends Spritesheet {
     @Override
-    public String getImageName() {
-        return "rocks";
-    }
-
-    @Override
-    public String getName() {
+    protected String getName() {
         return "blocks";
     }
 
     @Override
-    public JSONArray getJsonArray(String string) {
-        return new JSONArray(string);
+    protected String getImageName() {
+        return "rocks";
     }
 
     @Override
-    public void saveSprites(BufferedImage image, JSONArray json, File dir) {
+    protected void saveSprites(BufferedImage image, JSONArray json, File dir) {
         BufferedImage leftSheet = image.getSubimage(0, 0, 1024, 2048);
         BufferedImage rightSheet = image.getSubimage(1024, 0, 1024, 2048);
 

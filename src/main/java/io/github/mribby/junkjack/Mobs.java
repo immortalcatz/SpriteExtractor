@@ -10,17 +10,17 @@ import java.io.File;
 
 public class Mobs extends Spritesheet {
     @Override
-    public String getName() {
+    protected String getName() {
         return "mobs";
     }
 
     @Override
-    public JSONArray getJsonArray(String string) {
+    protected JSONArray getJsonArray(String string) {
         return new JSONObject(string).getJSONArray("mobs");
     }
 
     @Override
-    public void saveSprites(BufferedImage image, JSONArray json, File dir) {
+    protected void saveSprites(BufferedImage image, JSONArray json, File dir) {
         for (int i = 0; i < json.length(); i++) {
             JSONObject jsonObject = json.getJSONObject(i);
             String name = jsonObject.getString("name");

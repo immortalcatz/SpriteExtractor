@@ -16,7 +16,7 @@ public abstract class SpriteExtractorWorker extends SwingWorker<Void, String> {
 
     @Override
     protected void process(List<String> list) {
-        frame.disableGui(list.get(list.size() - 1));
+        frame.updateGui(list.get(list.size() - 1), false);
     }
 
     @Override
@@ -33,6 +33,6 @@ public abstract class SpriteExtractorWorker extends SwingWorker<Void, String> {
             Thread.currentThread().interrupt();
         }
 
-        frame.resetGui();
+        frame.updateGui("Extract sprites", true);
     }
 }
