@@ -13,17 +13,7 @@ public class SpriteExtractorFrame extends JFrame implements ActionListener {
     public static void createGui() {
         SpriteExtractorFrame frame = new SpriteExtractorFrame();
         frame.setSize(256, 96);
-        frame.setResizable(false);
         frame.setLocationRelativeTo(null);
-
-        try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            SwingUtilities.updateComponentTreeUI(frame);
-        }
-
         frame.setVisible(true);
         frame.downloadDependencies();
     }
