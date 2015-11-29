@@ -8,6 +8,9 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 
 public class Equips extends Spritesheet {
+    private static final int CANVAS_WIDTH = 60;
+    private static final int CANVAS_HEIGHT = 60;
+
     @Override
     protected String getName() {
         return "equips";
@@ -30,9 +33,17 @@ public class Equips extends Spritesheet {
             String name = jsonObject.getString("name");
             String kind = jsonObject.getString("kind");
             int index = jsonObject.optInt("index", -1);
+            BufferedImage resized = null;
 
             if (index != -1) {
-                if ("feet".equals(kind)) {
+                if ("hat".equals(kind)) {
+                    int column = index % 29;
+                    int row = index / 29;
+                    int x = column * 21;
+                    int y = 374 + row * 23;
+                    BufferedImage sprite = image.getSubimage(x, y, 21, 23);
+                    resized = getResizedImage(sprite, 42, 46, CANVAS_WIDTH, CANVAS_HEIGHT, 12, 2);
+                } else if ("feet".equals(kind)) {
                     int column = index % 34;
                     int row = index / 34;
                     int x = column * 18;
@@ -46,9 +57,12 @@ public class Equips extends Spritesheet {
                     graphics.drawImage(left, 0, 0, null);
                     graphics.dispose();
 
-                    BufferedImage resized = getResizedImage(sprite, 30, 18, 60, 60, 18, 42);
-                    saveImage(resized, name, dir);
+                    resized = getResizedImage(sprite, 30, 18, CANVAS_WIDTH, CANVAS_HEIGHT, 18, 42);
                 }
+            }
+
+            if (resized != null) {
+                saveImage(resized, name, dir);
             }
         }
     }
