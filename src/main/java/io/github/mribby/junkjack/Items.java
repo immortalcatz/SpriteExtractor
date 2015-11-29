@@ -3,6 +3,7 @@ package io.github.mribby.junkjack;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
 
@@ -19,32 +20,62 @@ public class Items extends Spritesheet {
 
     @Override
     protected String getJsonName() {
-        return "treasures";
+        return "english";
+    }
+
+    @Override
+    protected JSONArray getJsonArray(String string) {
+        return new JSONObject(string).getJSONArray("treasures");
     }
 
     @Override
     protected void saveSprites(BufferedImage image, JSONArray json, File dir) {
         for (int i = 0; i < json.length(); i++) {
             JSONObject jsonObject = json.getJSONObject(i);
+            int id = jsonObject.getInt("id");
             String name = jsonObject.getString("name");
-            int variants = jsonObject.getInt("variants");
-            JSONArray sizes = jsonObject.getJSONArray("sizes");
-            int x = jsonObject.getInt("row") * 16;
-            int y = jsonObject.getInt("col") * 16;
+            int x = id / 64 * 16;
+            int y = id % 64 * 16;
+            BufferedImage sprite = getCroppedImage(image.getSubimage(x, y, 16, 16));
+            int w = sprite.getWidth();
+            int h = sprite.getHeight();
+            int resizedW = w * 2;
+            int resizedH = h * 2;
+            int spriteX = 16 - w;
+            int spriteY = 16 - h;
+            BufferedImage resized = getResizedImage(sprite, resizedW, resizedH, 32, 32, spriteX, spriteY);
+            saveImage(resized, name, dir);
+        }
+    }
 
-            for (int variant = 0; variant < variants; variant++, x += 16) {
-                String variantName = variants > 1 ? name + " (Variant " + (variant + 1) + ")" : name;
-                int sizeIndex = variant * 2;
-                int w = sizes.getInt(sizeIndex);
-                int h = sizes.getInt(sizeIndex + 1);
-                int resizedW = w * 2;
-                int resizedH = h * 2;
-                int spriteX = 16 - w;
-                int spriteY = 16 - h;
-                BufferedImage sprite = image.getSubimage(x, y, w, h);
-                BufferedImage resized = getResizedImage(sprite, resizedW, resizedH, 32, 32, spriteX, spriteY);
-                saveImage(resized, variantName, dir);
+    private BufferedImage getCroppedImage(BufferedImage img) {
+        // http://stackoverflow.com/a/7385833
+
+        int height        = img.getHeight();
+        int width         = img.getWidth();
+        int trimmedWidth  = 0;
+        int trimmedHeight = 0;
+
+        for(int i = 0; i < height; i++) {
+            for(int j = width - 1; j >= 0; j--) {
+                Color color = new Color(img.getRGB(j, i), true);
+                if(color.getAlpha() != 0 && j > trimmedWidth) {
+                    trimmedWidth = j;
+                    break;
+                }
             }
         }
+
+        for(int i = 0; i < width; i++) {
+            for(int j = height - 1; j >= 0; j--) {
+                Color color = new Color(img.getRGB(i, j), true);
+                if(color.getAlpha() != 0 && j > trimmedHeight) {
+                    trimmedHeight = j;
+                    break;
+                }
+            }
+        }
+
+        return img.getSubimage(0, 0, trimmedWidth + 1, trimmedHeight + 1);
     }
 }

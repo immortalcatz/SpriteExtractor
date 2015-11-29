@@ -15,27 +15,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public abstract class Spritesheet {
-    public static final ArrayList<Spritesheet> SPRITESHEETS = new ArrayList<Spritesheet>();
-    public static final ArrayList<String> NAMES = new ArrayList<String>();
     private int sprites;
-
-    static {
-        addSpritesheet(new All());
-        addSpritesheet(new Items());
-        addSpritesheet(new Equips());
-        addSpritesheet(new Blocks());
-        addSpritesheet(new Mobs());
-    }
-
-    public static Spritesheet getSpritesheet(String name) {
-        int index = NAMES.indexOf(name);
-        return index != -1 ? SPRITESHEETS.get(index) : null;
-    }
-
-    private static void addSpritesheet(Spritesheet spritesheet) {
-        SPRITESHEETS.add(spritesheet);
-        NAMES.add(spritesheet.getName());
-    }
 
     public int saveSprites() {
         BufferedImage image;
