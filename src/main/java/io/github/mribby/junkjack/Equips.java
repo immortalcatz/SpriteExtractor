@@ -31,23 +31,30 @@ public class Equips extends Spritesheet {
         for (int i = 0; i < json.length(); i++) {
             JSONObject jsonObject = json.getJSONObject(i);
             String name = jsonObject.getString("name");
-            String kind = jsonObject.getString("kind");
+            Kind kind = Kind.getKind(jsonObject.getString("kind"));
             int index = jsonObject.optInt("index", -1);
             BufferedImage resized = null;
 
             if (index != -1) {
-                if ("hat".equals(kind)) {
+                if (kind == Kind.hat) {
                     int column = index % 29;
                     int row = index / 29;
                     int x = column * 21;
                     int y = 374 + row * 23;
                     BufferedImage sprite = image.getSubimage(x, y, 21, 23);
                     resized = getResizedImage(sprite, 42, 46, CANVAS_WIDTH, CANVAS_HEIGHT, 12, 2);
-                } else if ("feet".equals(kind)) {
+                } else if (kind == Kind.chest) {
+                    int column = index % 19;
+                    int row = index / 19;
+                    int x = column * 32;
+                    int y = 49 + row * 34;
+                    BufferedImage sprite = image.getSubimage(x, y, 22, 15);
+                    resized = getResizedImage(sprite, 44, 30, CANVAS_WIDTH, CANVAS_HEIGHT, 12, 32);
+                } else if (kind == Kind.legs || kind == Kind.feet) {
                     int column = index % 34;
                     int row = index / 34;
                     int x = column * 18;
-                    int y = 310 + row * 18;
+                    int y = (kind == Kind.legs ? 301 : 310) + row * 18;
                     BufferedImage left = image.getSubimage(x, y, 8, 9);
                     BufferedImage right = image.getSubimage(x + 9, y, 8, 9);
 
